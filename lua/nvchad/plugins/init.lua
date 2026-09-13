@@ -68,9 +68,14 @@ return {
   -- formatting!
   {
     "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = { lua = { "stylua" } },
-    },
+    opts = function()
+      local ok, opts = pcall(require, "nvchad.configs.conform")
+      if not ok then
+        vim.notify(opts, vim.log.levels.ERROR)
+        return { formatters_by_ft = { lua = { "stylua" } } }
+      end
+      return opts
+    end,
   },
 
   -- git stuff
